@@ -21,7 +21,8 @@ Review the installed instructions and remove any skill that does not fit the tar
 ## Contents
 
 - `AGENTS.md` — portable default instructions and preferences.
-- `.agents/skills/` — reusable skills from `cursus-ui-apps`, plus the proposed Ponytail skill.
+- `.agents/skills/` — reusable skills from `cursus-ui-apps`, plus the canonical Ponytail skill suite from [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail).
+- `.cursor/rules/ponytail.mdc` — the canonical always-on Cursor rule.
 - `DECISIONS-GAPS-WORKFLOW.md` — decisions, known gaps, and the rerunnable plan/build/review/repair workflow.
 - `source/` — preserved Cursus-specific `AGENTS.md`, Cursor rules, and skill lock metadata.
 

@@ -12,7 +12,7 @@
 - Source skills can become stale as their upstream repositories change. Refresh `source/cursus-ui-apps/skills-lock.json` and review copied skills periodically.
 - The original project rules contain useful Angular, testing, API, security, and infrastructure patterns, but they are still coupled to the Cursus workspace. Promote a rule into the portable set only after proving it applies elsewhere.
 - The installer does not yet support version pinning, remote updates, or conflict-aware merging of individual skills.
-- New suggestion: add the Ponytail simplicity rule as a default review skill. It is included here as `.agents/skills/ponytail/SKILL.md`; use it to question YAGNI, reuse existing code, standard-library alternatives, dependency growth, and unnecessary abstractions.
+- Ponytail is now installed from the canonical MIT-licensed GitHub repository, including its main skill, five companion skills, and Cursor rule. Use it to question YAGNI, reuse existing code, standard-library alternatives, dependency growth, and unnecessary abstractions.
 
 # Workflow
 
