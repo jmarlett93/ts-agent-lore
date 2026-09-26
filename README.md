@@ -16,6 +16,12 @@ The installer adds `AGENTS.md` and `.agents/skills/`. It will not overwrite an e
 ./install.sh --force /path/to/another/repo
 ```
 
+Install the pinned Universal Flow orchestration package as well:
+
+```bash
+./install.sh --with-universal-flow /path/to/another/repo
+```
+
 Review the installed instructions and remove any skill that does not fit the target repository.
 
 ## Contents
@@ -23,6 +29,7 @@ Review the installed instructions and remove any skill that does not fit the tar
 - `AGENTS.md` — portable default instructions and preferences.
 - `.agents/skills/` — reusable skills from `cursus-ui-apps`, plus the canonical Ponytail skill suite from [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail).
 - `.cursor/rules/` — portable Cursor rules for Ponytail, functional TypeScript, file naming, module design, Angular, Hapi, and Drizzle.
+- `packages/universal-flow/` — pinned installation metadata for the Universal Flow orchestration plugin.
 - `DECISIONS-GAPS-WORKFLOW.md` — decisions, known gaps, and the rerunnable plan/build/review/repair workflow.
 - `source/` — preserved Cursus-specific `AGENTS.md`, Cursor rules, and skill lock metadata.
 
