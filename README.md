@@ -1,48 +1,116 @@
 # ts-agent-lore
 
-Portable agent instructions, skills, and preferences extracted from `cursus-ui-apps`.
+Portable agent instructions, skills, preferences, and orchestration tooling for my
+TypeScript, Angular, Hapi, and Drizzle projects.
+
+## Ecosystem
+
+```text
+Herdr
+  terminal workspaces, tabs, panes, and agent visibility
+        ↓ optional execution adapter
+Universal Flow
+  requirements → technical specs → Ponytail review → parallel builds → recovery
+        ↓ launches
+Cursor CLI agents
+  implementation and repair in isolated Git worktrees
+        ↓ read
+Agent Lore
+  AGENTS.md, Cursor rules, skills, and project preferences
+```
+
+### Agent Lore
+
+This repository is the shared instruction layer:
+
+- `AGENTS.md` — durable project guidance and personal preferences.
+- `.cursor/rules/` — file-scoped conventions for functional TypeScript, naming,
+  Angular, Hapi, Drizzle, module design, and Ponytail.
+- `.agents/skills/` — reusable task workflows, including the Impeccable skills,
+  LangChain/LangGraph skills, and the canonical [Ponytail skill suite](https://github.com/DietrichGebert/ponytail).
+
+Install these files inside each target repository so they are part of that
+repository's Cursor context and versioned with its code.
+
+### Universal Flow
+
+[Universal Flow](https://github.com/jmarlett93/universal-flow) is the orchestration
+plugin. Its `cursor.simple` workflow uses:
+
+1. Opus for requirements, technical-spec packets, orchestration, Ponytail review,
+   recovery, and final reporting.
+2. Cursor models for repository discovery and implementation.
+3. One human approval gate after the Ponytail-reviewed technical specs.
+4. Parallel implementation packets in isolated Git worktrees.
+5. Targeted repair instead of restarting successful work.
+
+Universal Flow is installed globally at `$UNIVERSAL_FLOW_HOME` or
+`$HOME/tools/universal-flow`, and linked into Cursor at
+`~/.cursor/plugins/local/universal-flow`.
+
+### Cursor CLI
+
+The Cursor Agent CLI is the implementation runtime. Universal Flow gives each
+builder a bounded packet, allowed scope, guidance manifest, acceptance checks, and
+worktree. Builders implement, test, report their guidance usage, and remain
+available for Ponytail review or repair.
+
+### Herdr
+
+[Herdr](https://herdr.dev) is the terminal multiplexer and visibility layer. With
+the optional Universal Flow Herdr adapter, each implementation packet gets a real
+Cursor CLI child pane in a Herdr `agents` tab. Herdr shows working, blocked, and
+completed agents; Universal Flow remains responsible for requirements, artifacts,
+Git worktrees, reviews, and recovery.
+
+Native Cursor delegation remains available when the Herdr adapter is not selected.
 
 ## Install
 
 From this repository:
 
 ```bash
-./install.sh /path/to/another/repo
+./install.sh /path/to/target-repo
 ```
 
-The installer adds `AGENTS.md`, `.agents/skills/`, `.cursor/rules/`, and the
-Universal Flow orchestration package by default. It will not overwrite an existing
-`AGENTS.md` unless explicitly forced:
+The default installation adds repository-local lore and installs Universal Flow.
+It will not overwrite an existing `AGENTS.md` unless explicitly forced:
 
 ```bash
-./install.sh --force /path/to/another/repo
+./install.sh --force /path/to/target-repo
 ```
 
-Skip Universal Flow when only repository guidance is needed:
+Skip the global Universal Flow installation when needed:
 
 ```bash
-./install.sh --without-universal-flow /path/to/another/repo
+./install.sh --without-universal-flow /path/to/target-repo
 ```
 
-Review the installed instructions and remove any skill that does not fit the target repository.
+Review installed skills and remove anything that does not fit the target project.
 
-## Where installation applies
+## Typical run
 
-Install `AGENTS.md`, `.cursor/rules/`, and `.agents/skills/` inside each target
-repository. This makes the guidance part of the repository context and keeps it
-versioned with the code.
+1. Open the target repository as one Herdr workspace.
+2. Start Universal Flow with `cursor.simple`.
+3. Select the `herdr` execution adapter when pane-level child visibility is wanted.
+4. Let Opus create and Ponytail-review technical specs.
+5. Approve the spec set once.
+6. Let Cursor CLI builders implement independent packets in parallel.
+7. Review and repair rejected units with Ponytail.
+8. Use the persisted Universal Flow artifacts for recovery and final reporting.
 
-Universal Flow itself is installed globally at `$UNIVERSAL_FLOW_HOME` or
-`$HOME/tools/universal-flow` and linked into Cursor's local plugin directory. It is
-orchestration tooling, so it does not need to be copied into every repository.
+Example request:
 
-## Contents
+> Run Universal Flow with `cursor.simple` and the `herdr` execution adapter for this
+> PRD against `main`.
 
-- `AGENTS.md` — portable default instructions and preferences.
-- `.agents/skills/` — reusable skills from `cursus-ui-apps`, plus the canonical Ponytail skill suite from [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail).
-- `.cursor/rules/` — portable Cursor rules for Ponytail, functional TypeScript, file naming, module design, Angular, Hapi, and Drizzle.
-- `packages/universal-flow/` — pinned installation metadata for the Universal Flow orchestration plugin.
-- `DECISIONS-GAPS-WORKFLOW.md` — decisions, known gaps, and the rerunnable plan/build/review/repair workflow.
-- `source/` — preserved Cursus-specific `AGENTS.md`, Cursor rules, and skill lock metadata.
+## Repository contents
+
+- `AGENTS.md` — shared instructions and preferences.
+- `.agents/skills/` — reusable skills.
+- `.cursor/rules/` — portable Cursor rules.
+- `packages/universal-flow/` — pinned Universal Flow installation metadata.
+- `DECISIONS-GAPS-WORKFLOW.md` — decisions, gaps, and the simplified workflow.
+- `source/` — preserved Cursus-specific source guidance and provenance.
 
 This is intentionally a plain Git repository with no runtime dependency.
