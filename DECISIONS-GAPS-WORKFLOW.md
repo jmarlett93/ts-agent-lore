@@ -19,6 +19,7 @@
 - The workflow intentionally has one human approval gate: approve the Ponytail-reviewed technical-spec set before parallel implementation. Separate PR sequencing and per-PR approval are disabled for the simple preset.
 - Universal Flow now creates a bounded, hashed guidance manifest per technical-spec packet. Builders receive that exact manifest and record guidance used or explicitly skipped in their build reports.
 - Universal Flow is distributed as a pinned package from `packages/universal-flow` and installed by default; `--without-universal-flow` is the explicit opt-out. Repository guidance is installed into each target repo, while the orchestration plugin stays global.
+- Universal Flow includes an optional Herdr adapter. Native Cursor delegation remains the default; Herdr mode creates one workspace/agents tab and one real Cursor pane per implementation packet.
 
 # Workflow
 
