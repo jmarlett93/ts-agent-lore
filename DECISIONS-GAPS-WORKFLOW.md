@@ -17,6 +17,7 @@
 - Angular, Hapi, and Drizzle rules now preserve the Cursus conventions nearly verbatim while removing only Cursus-specific paths, prefixes, and domain names.
 - Universal Flow is installed at `/home/jmarlett/tools/universal-flow` from `jmarlett93/universal-flow`; its `cursor.simple` preset uses Claude Opus for orchestration, technical specs, Ponytail review, recovery, and reporting, with Cursor models for discovery and implementation.
 - The workflow intentionally has one human approval gate: approve the Ponytail-reviewed technical-spec set before parallel implementation. Separate PR sequencing and per-PR approval are disabled for the simple preset.
+- Universal Flow now creates a bounded, hashed guidance manifest per technical-spec packet. Builders receive that exact manifest and record guidance used or explicitly skipped in their build reports.
 
 # Workflow
 
