@@ -110,7 +110,6 @@ Example request:
 - `.agents/skills/` — reusable skills.
 - `.cursor/rules/` — portable Cursor rules.
 - `packages/universal-flow/` — pinned Universal Flow installation metadata.
-- `DECISIONS-GAPS-WORKFLOW.md` — decisions, gaps, and the simplified workflow.
 - `source/` — preserved Cursus-specific source guidance and provenance.
 
 This is intentionally a plain Git repository with no runtime dependency.
