@@ -20,6 +20,6 @@ cp "$repo/AGENTS.md" "$target/AGENTS.md"
 mkdir -p "$target/.agents/skills"
 cp -a "$repo/.agents/skills/." "$target/.agents/skills/"
 mkdir -p "$target/.cursor/rules"
-cp "$repo/.cursor/rules/ponytail.mdc" "$target/.cursor/rules/ponytail.mdc"
+cp -a "$repo/.cursor/rules/." "$target/.cursor/rules/"
 
 printf 'Installed agent lore in %s\n' "$target"

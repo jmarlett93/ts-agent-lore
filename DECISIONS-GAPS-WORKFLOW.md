@@ -13,6 +13,7 @@
 - The original project rules contain useful Angular, testing, API, security, and infrastructure patterns, but they are still coupled to the Cursus workspace. Promote a rule into the portable set only after proving it applies elsewhere.
 - The installer does not yet support version pinning, remote updates, or conflict-aware merging of individual skills.
 - Ponytail is now installed from the canonical MIT-licensed GitHub repository, including its main skill, five companion skills, and Cursor rule. Use it to question YAGNI, reuse existing code, standard-library alternatives, dependency growth, and unnecessary abstractions.
+- The portable Cursor rules extract the reusable parts of Cursus conventions: functional collection transformations, pure functions, side-effect isolation, responsibility-based TypeScript suffixes, module boundaries, public exports, and behavior-focused tests. Cursus-specific framework and domain rules remain in `source/`.
 
 # Workflow
 

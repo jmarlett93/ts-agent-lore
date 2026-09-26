@@ -42,3 +42,7 @@ The repository owner prefers concise, practical answers; functional declarative 
 ## Skills
 
 Load only the skill relevant to the current task. Skills live in `.agents/skills/` and are copied from the reusable skills found in `cursus-ui-apps`.
+
+## Cursor rules
+
+Portable, file-scoped conventions live in `.cursor/rules/`. Use the functional TypeScript, file naming, and module design rules where they fit; adapt them to the target repository's existing conventions.
