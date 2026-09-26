@@ -10,11 +10,13 @@ targeted recovery.
 - Cursor integration: `~/.cursor/plugins/local/universal-flow`
 - Recommended preset: `cursor.simple`
 
-Install it with the lore installer:
+It is installed by default with the lore installer:
 
 ```bash
-./install.sh --with-universal-flow /path/to/repo
+./install.sh /path/to/repo
 ```
+
+Use `--without-universal-flow` to skip it.
 
 An existing Universal Flow checkout or Cursor plugin link is left unchanged. Update
 those separately with the repository's normal Git workflow.

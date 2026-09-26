@@ -2,13 +2,14 @@
 set -euo pipefail
 
 force=false
-with_universal_flow=false
+with_universal_flow=true
 target=
 
 while (($#)); do
   case "$1" in
     --force) force=true ;;
     --with-universal-flow) with_universal_flow=true ;;
+    --without-universal-flow) with_universal_flow=false ;;
     -*) printf 'Unknown option: %s\n' "$1" >&2; exit 2 ;;
     *) [[ -z "$target" ]] || { printf 'Only one target path is allowed.\n' >&2; exit 2; }; target="$1" ;;
   esac

@@ -10,19 +10,31 @@ From this repository:
 ./install.sh /path/to/another/repo
 ```
 
-The installer adds `AGENTS.md` and `.agents/skills/`. It will not overwrite an existing `AGENTS.md` unless explicitly forced:
+The installer adds `AGENTS.md`, `.agents/skills/`, `.cursor/rules/`, and the
+Universal Flow orchestration package by default. It will not overwrite an existing
+`AGENTS.md` unless explicitly forced:
 
 ```bash
 ./install.sh --force /path/to/another/repo
 ```
 
-Install the pinned Universal Flow orchestration package as well:
+Skip Universal Flow when only repository guidance is needed:
 
 ```bash
-./install.sh --with-universal-flow /path/to/another/repo
+./install.sh --without-universal-flow /path/to/another/repo
 ```
 
 Review the installed instructions and remove any skill that does not fit the target repository.
+
+## Where installation applies
+
+Install `AGENTS.md`, `.cursor/rules/`, and `.agents/skills/` inside each target
+repository. This makes the guidance part of the repository context and keeps it
+versioned with the code.
+
+Universal Flow itself is installed globally at `$UNIVERSAL_FLOW_HOME` or
+`$HOME/tools/universal-flow` and linked into Cursor's local plugin directory. It is
+orchestration tooling, so it does not need to be copied into every repository.
 
 ## Contents
 
