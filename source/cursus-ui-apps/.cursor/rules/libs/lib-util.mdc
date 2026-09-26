@@ -1,0 +1,18 @@
+---
+description: Conventions for util libraries (pure functions, no Angular)
+globs: libs/**/util/**/*.ts
+alwaysApply: false
+---
+
+# Util libraries
+
+When editing under `libs/**/util/**/`.
+
+## Scope
+
+- Applies to: @ libs/**/util/**/*
+
+## Conventions
+
+- Pure functions, exports, no Angular unless unavoidable; see `crss-rules`.
+- Unit test patterns: `frameworks/vitest-reference-pure-util.mdc`.

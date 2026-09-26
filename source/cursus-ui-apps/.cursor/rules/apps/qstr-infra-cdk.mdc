@@ -1,0 +1,21 @@
+---
+description: Conventions and structure for qstr-infra-cdk (AWS CDK app)
+globs: apps/qstr-infra-cdk/**/*
+alwaysApply: false
+---
+
+# qstr-infra-cdk
+
+When editing files under `apps/qstr-infra-cdk/`, follow these conventions.
+
+## Scope / When to use
+
+- Applies to: @ apps/qstr-infra-cdk/**/*
+
+## Conventions
+
+- <!-- Your app-specific rules: stacks, constructs, deploy -->
+
+## Reference files (optional)
+
+- @ apps/qstr-infra-cdk/src/

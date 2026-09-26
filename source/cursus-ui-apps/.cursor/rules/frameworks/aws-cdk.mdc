@@ -1,0 +1,17 @@
+---
+description: AWS CDK conventions (constructs, stacks, naming)
+globs: apps/qstr-infra-cdk/**/*.ts,apps/**/*.construct.ts
+alwaysApply: false
+---
+
+# AWS CDK
+
+When editing files matching this rule.
+
+## Scope
+
+- Applies to: `apps/qstr-infra-cdk/**/*.ts`, `**/*.construct.ts`
+
+## Conventions
+
+- <!-- Focused rules: constructs, stacks, naming; see crss-rules -->

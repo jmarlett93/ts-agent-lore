@@ -1,0 +1,217 @@
+---
+alwaysApply: true
+---
+
+# Cursus Workspace Development Rules
+
+## General Guidelines
+
+- Follow functional declarative style TypeScript and JavaScript
+- Prefer to isolate side effects
+- For any mapping function or utility function prefer pure arrow functions exported with const if needed.
+
+---
+
+## Angular Libraries
+
+### Feature Libraries (`libs/{scope}/{domain}/feature/{feature-name}`)
+
+**Purpose**: Contain smart components that coordinate data and business logic
+
+**Rules**:
+
+### Data-Access Libraries (`libs/{scope}/{domain}/data-access/{service-name}`)
+
+**Purpose**: Contain services and stores that manage data and state
+
+**Rules**:
+
+- Use `@Injectable({ providedIn: 'root' })` for services
+- Use signal stores with `signalStore()` from `@ngrx/signals`
+- Use `firstValueFrom()` for converting observables to promises
+- Handle errors consistently with try/catch blocks
+- Use interfaces for all data models
+- Export all public interfaces and services from `index.ts`
+
+### Util Libraries (`libs/{scope}/{domain}/util/{util-name}`)
+
+**Purpose**: Contain pure functions, utilities, and shared constants
+
+**Rules**:
+
+- Use pure functions whenever possible
+- Export utilities from `index.ts`
+- Include comprehensive TypeScript types
+- No Angular dependencies unless absolutely necessary
+- Include unit tests for all utilities
+
+---
+
+## Angular Applications (`apps/{app-name}`)
+
+**Purpose**: Main application entry points that compose features
+
+**Rules**:
+
+- Use standalone bootstrapping
+- Configure routing with lazy-loaded feature components
+- Set up global providers in `app.config.ts`
+- Use authentication guards and resolvers consistently
+- Follow the routing pattern:
+
+```typescript
+{
+  title: 'Page Title',
+  path: 'route-path',
+  loadComponent: () => import('@crss/domain/feature/name').then(m => m.ComponentName),
+  resolve: [reloadUserDataResolver],
+  canActivate: [isAuthenticated],
+}
+```
+
+## API Libraries (`libs/{scope}/{domain}-api/{type}/{name}`)
+
+**Purpose**: Backend business logic, handlers, and database operations
+
+**Rules**:
+
+- Use functional programming style
+- Separate concerns: handlers, services, database operations
+- Use Drizzle ORM for database operations
+- Follow error handling patterns with proper HTTP status codes
+- Use dependency injection with `inject()` where applicable
+- Validate inputs with Joi schemas
+- Use TypeScript interfaces for all data structures
+
+**Handler Pattern**:
+
+```typescript
+export const handlerName = async (
+  request: Request,
+  handler: ResponseToolkit
+) => {
+  try {
+    const { database } = request.server.app;
+    const result = await serviceFunction(database, request.payload);
+    return handler.response(result).code(200);
+  } catch (error) {
+    return handler.response({ message: 'Error message' }).code(500);
+  }
+};
+```
+
+**Joi API Request Validation for HAPI routes**:
+
+- Add Joi validation to the request payload.
+- Add Joi validation to the request params.
+- Add Joi validation to the request query.
+  - example of a HAPI route definition use using Joi validation:
+
+```typescript
+  {
+        method: 'DELETE',
+        path: '/business-processes/{accountId}/{id}',
+        handler: deleteBusinessProcessHandler,
+        options: {
+          description: 'Delete a business process',
+          tags: ['api', 'business-processes'],
+          auth: false,
+          validate: {
+            params: Joi.object({
+              accountId: Joi.string().uuid().required(),
+              id: Joi.string().uuid().required(),
+            }),
+          },
+        },
+      },
+```
+
+---
+
+## API Applications (`apps/{api-name}`)
+
+**Purpose**: Main API entry points that compose routes and plugins
+
+**Rules**:
+
+- Use Hapi.js server framework
+- Register plugins for different domains
+- Configure CORS appropriately
+- Set up database connections in server setup
+- Use environment-based configuration
+- Follow plugin registration pattern
+
+---
+
+## Domain-Specific Rules
+
+### Cursus Domain
+
+- **Focus**: Core platform functionality, authentication, configuration
+- **Naming**: Use `cursus-` prefix for exports
+- **Dependencies**: Minimal external dependencies, prefer platform utilities
+
+### Magus Domain
+
+- **Focus**: Process management and wizard functionality
+- **Naming**: Use `magus-` prefix for exports
+- **Dependencies**: Can depend on cursus utilities, process-specific libraries
+
+### Quaestor Domain
+
+- **Focus**: Operations, navigation, and system management
+- **Naming**: Use `quaestor-` prefix for exports
+- **Dependencies**: Can depend on cursus utilities, ops-specific libraries
+
+---
+
+## File Organization Rules
+
+### TypeScript Files
+
+- Use consistent import ordering: Angular core, Angular modules, third-party, internal
+- Group imports logically with blank lines
+- Export interfaces and types from dedicated files when shared
+
+### Styling
+
+- Prefer Tailwind utilities over custom CSS
+- Only create `.scss` files when component-specific styling is necessary
+- Use Material Design system tokens when available
+
+---
+
+## Testing Rules
+
+### Unit Tests
+
+- Test public API and behavior, not implementation details
+- Use Angular Testing Library patterns
+- Mock external dependencies
+- Test error scenarios
+
+### E2E Tests
+
+- Focus on user workflows
+- Use Playwright for browser testing
+- Test critical paths thoroughly
+
+---
+
+## Performance Rules
+
+- Use `OnPush` change detection strategy
+- Implement `trackBy` functions for large lists
+- Lazy load routes and modules
+- Use signals for reactive state management
+- Avoid subscriptions in favor of effects when possible
+
+---
+
+## Security Rules
+
+- Validate all inputs at API boundaries
+- Use authentication guards on protected routes
+- Sanitize user inputs, especially in markdown content
+- Follow CORS best practices
+- Use environment variables for sensitive configuration

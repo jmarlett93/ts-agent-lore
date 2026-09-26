@@ -1,0 +1,29 @@
+---
+description: Reference — Postgres + Drizzle integration tests (same Vitest run as unit tests)
+globs: **/*.integration.spec.ts
+alwaysApply: false
+---
+
+# API database integration tests (Vitest + Postgres)
+
+## Purpose
+
+Validate **real SQL**, constraints, and Drizzle mappings alongside other specs in the same project `test` target. **Not** a substitute for handler unit tests with mocks.
+
+## Skipping without Postgres (Vitest built-in)
+
+- Same Vitest config as sibling `*.spec.ts` files (`include` should cover `*.integration.spec.ts`).
+- Use Vitest’s **`describe.runIf(…)`** (not a custom helper) so the suite is **skipped** when the condition is false — e.g. `describe.runIf(process.env['RUN_DB_INTEGRATION'] === 'true')(…)`.
+- To run against a real DB: **`RUN_DB_INTEGRATION=true`** plus `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD` (and `DB_SSL=true` if needed). **Never** commit credentials; do not read `.env` from the agent.
+
+## Lifecycle
+
+1. **`createDb(config)`**, run tests, **`end()`** in `afterAll`.
+2. Insert rows with **unique** ids (`randomUUID()` in external ids / emails).
+3. **Delete** rows you inserted (by primary key) when done.
+
+Avoid **`DROP DATABASE`/`DROP SCHEMA`** in routine tests.
+
+## Example in repo
+
+- `libs/quaestor/database-api/data-access/triad-orm-definitions/src/lib/db.integration.spec.ts`

@@ -1,0 +1,26 @@
+---
+description: Conventions and structure for quaestor-ui-app (main Angular app)
+globs: apps/quaestor-ui-app/**/*
+alwaysApply: false
+---
+
+# quaestor-ui-app
+
+When editing files under `apps/quaestor-ui-app/`, follow these conventions.
+
+## Scope / When to use
+
+- Applies to: @ apps/quaestor-ui-app/\*_/_
+
+## Conventions
+
+- Main authenticated pages (process, role, system, account) use the shared **main layout** (`MainLayoutComponent`): fixed left nav (Processes, Roles, Systems, Account) and a 1-2-1 grid content area. Account routes use full width and the account-management component’s own left nav.
+- **Page title**: The first heading in the router-outlet content must be an `<h1>` with `crss:text-4xl crss:font-bold` (and e.g. `crss:mb-6`). Use semantic headings and the `crss:` prefix.
+- **Typography scale** (power-of-3 style): H1 page title `text-4xl`; H2 section/card title `text-3xl`; H3 subsection `text-2xl`; body `text-base`; secondary/captions `text-sm`; labels/meta `text-xs`. Keep font weights consistent (`font-bold` for H1, `font-semibold` for H2/H3).
+- Left nav styling: match `account-management` (fixed, `w-56`, `pt-24`, `px-4`, `bg-color-theme-dark`, `border-r`). See `main-layout.component.html` and account-management template.
+
+## Reference files (optional)
+
+- @ apps/quaestor-ui-app/src/
+- Main layout: apps/quaestor-ui-app/src/app/main-layout/
+- Account layout reference: libs/quaestor/users/feature/account-management/src/lib/account-management.html

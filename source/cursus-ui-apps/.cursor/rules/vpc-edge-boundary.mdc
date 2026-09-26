@@ -1,0 +1,101 @@
+---
+description: VPC / edge boundary rules for all backend code. Apply when working on any Node/TypeScript service, API handler, or infrastructure code in this workspace.
+globs:
+  - apps/quaestor-api-app/**/*
+  - apps/qstr-admin-portal/**/*
+  - apps/payment-processing/**/*
+  - apps/qstr-edge-local/**/*
+  - apps/qstr-infra-cdk/**/*
+  - libs/quaestor/users-api/**/*
+alwaysApply: true
+---
+
+# VPC / Edge Boundary Rules
+
+## The fundamental rule
+
+This codebase deploys on AWS with two hard network zones:
+
+| Zone | Apps | Internet access | DB access |
+|------|------|----------------|-----------|
+| **VPC-bound (process zone)** | `quaestor-api-app`, `qstr-admin-portal` | ❌ NONE | ✅ Yes |
+| **Edge (non-VPC)** | `payment-processing`, `qstr-edge-local`, cognito/reconciler lambdas | ✅ Yes | ❌ NONE |
+
+**VPC-bound Lambdas run in private isolated subnets with no NAT gateway. Any attempt to call an internet endpoint will silently time out.**
+
+## What this means in practice
+
+### NEVER put these in VPC-bound code (`quaestor-api-app`, `qstr-admin-portal`, or any lib they import at runtime):
+
+- `import Stripe from 'stripe'` or any `stripe.*` SDK call
+- Any AWS SDK call that routes over the internet (SES, Cognito, etc.)
+- Any `fetch`/`axios`/`http.request` to an external URL (api.stripe.com, cognito endpoints, etc.)
+- Direct secrets manager calls that resolve Stripe keys (the VPC Lambda can read DB secrets, but Stripe keys belong on the edge)
+
+### ALWAYS put these in edge handlers (`payment-processing/src/handler.ts` or a new edge handler):
+
+- All Stripe SDK operations (`stripe.customers.create`, `stripe.subscriptions.create`, `stripe.webhooks.constructEvent`, `stripe.prices.list`, etc.)
+- Cognito API calls
+- Any outbound HTTPS to third-party APIs
+
+## Cross-zone call pattern
+
+When VPC-bound code needs the edge to do something, use the signed internal client pattern:
+
+```typescript
+// ✅ CORRECT — VPC service calls edge via API Gateway (SigV4 in AWS, plain HTTP locally)
+import { createSignedFetcher } from 'aws-sigv4-fetch';
+import { INTERNAL_PAYMENT_GATEWAY_FETCH_CATALOG_PATH } from '@quaestor/stripe-webhook-events';
+
+const res = await signedFetch(
+  `${process.env['API_BASE_URL']}${INTERNAL_PAYMENT_GATEWAY_FETCH_CATALOG_PATH}`,
+  { method: 'POST', ... }
+);
+
+// ❌ WRONG — calling Stripe directly from VPC-bound code
+import Stripe from 'stripe';
+const stripe = new Stripe(secretKey);
+await stripe.prices.list(...);
+```
+
+Reference implementations:
+- `libs/quaestor/users-api/feature/user-account-manager/src/lib/payment-internal-client.ts`
+- `libs/quaestor/users-api/feature/admin-manager/src/lib/payment-edge-client.ts`
+
+## Route constants
+
+**Never hardcode internal gateway paths.** Always import from:
+
+```
+@quaestor/stripe-webhook-events
+```
+
+Source: `libs/quaestor/users-api/util/stripe-webhook-events/src/lib/internal-subscription-gateway-paths.ts`
+
+## Adding a new external integration — required checklist
+
+Before writing any code, confirm:
+
+1. Does this call an external API? → It **must** live in an edge handler.
+2. Does it also need DB? → Split: edge returns a DTO, VPC-bound handler writes DB.
+3. Add path constant to `internal-subscription-gateway-paths.ts`.
+4. Add handler to `payment-processing/src/handler.ts` (or a new dedicated edge handler).
+5. Register CDK route: `HttpIamAuthorizer` + `grantInvoke(callerLambda)` in `qstr-application.stack.ts`.
+6. Add local-equivalent route to `apps/qstr-edge-local/src/main.ts`.
+7. Add edge client function in the calling VPC-bound lib.
+8. Verify builds: `nx run quaestor-api-app:build` and `nx run crss-payment-proccessing:build`.
+
+## Local development
+
+Run these three servers for a full local stack:
+
+```bash
+npx nx run qstr-edge-local:serve       # port 3100 — edge (Stripe + Cognito)
+npx nx run quaestor-api-app:serve      # port 3000 — VPC process API
+npx nx run qstr-admin-portal:serve     # port 4100 — VPC admin portal
+stripe listen --forward-to http://localhost:3100/qstr-api/subscriptions/webhook
+```
+
+All VPC-bound apps need `SERVER_ENV=local`, `EDGE_HOST=localhost`, `EDGE_PORT=3100` in their `.env.local`.
+
+Full documentation: `docs/vpc-edge-architecture.md`

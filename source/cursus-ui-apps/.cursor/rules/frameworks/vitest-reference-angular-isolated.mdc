@@ -1,0 +1,42 @@
+---
+globs: libs/**/feature/**/*.spec.ts, libs/**/data-access/**/*.spec.ts, libs/**/ui/**/*.spec.ts, apps/**/*.spec.ts
+alwaysApply: false
+---
+
+# Angular isolated component / store tests (Vitest)
+
+## Stack
+
+- **Vitest** + **jsdom** + `@analogjs/vite-plugin-angular` (configured in each lib’s `vitest.config.mts`).
+- **`@testing-library/angular`** — `render()`, `screen`, role/name queries.
+- **`@testing-library/user-event`** — `userEvent.setup()` then `click()`, `type()`, etc.
+- **`vi.mock()`** — stub **injected** services, child components, or heavy modules so the spec exercises **only** the SUT.
+- **Router** — either `vi.mock('@angular/router', …)` or (often simpler) `provideRouter([…])` plus a **`Router` spy** on `navigateByUrl` / `navigate` to assert navigation without pulling the real app shell.
+
+## Isolate the component under test
+
+1. **`vi.mock('path/to/dependency', () => ({ ... }))`** at top level (hoisted). Import the SUT **after** mocks if the SUT pulls mocked modules.
+2. **`render(Component, { providers: [...] })`** — provide fakes with `useValue` / `useClass` instead of real HTTP or stores when possible.
+3. Prefer **`componentInputs: { ... }`** (Testing Library Angular) over reaching into `fixture.componentRef`.
+
+## user-event flow
+
+```typescript
+const user = userEvent.setup();
+await user.click(screen.getByRole('button', { name: /save/i }));
+```
+
+## Data-access (stores / services)
+
+- Test **observable behavior**: signals, public methods, error paths.
+- Mock `HttpClient` with `HttpClientTestingModule` + `HttpTestingController`, or replace the service with `vi.fn()` providers.
+
+## Anti-patterns
+
+- `fixture.debugElement.query(By.css(...))` for anything a user can see — use `screen` + roles.
+- Rendering the whole app to test one button.
+
+## Examples in repo
+
+- Feature + Router: `libs/quaestor/ops-command/feature/process-list/src/lib/back-button/back-button.component.spec.ts`
+- Data-access helpers: `libs/quaestor/ops-navigator/data-access/triad-entities/src/lib/loading-state.util.spec.ts`

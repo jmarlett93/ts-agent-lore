@@ -1,0 +1,39 @@
+---
+description: Reference — Vitest unit tests for pure util libs (no Angular, no DB)
+globs: libs/**/util/**/*.spec.ts, libs/**/util/**/*.test.ts
+alwaysApply: false
+---
+
+# Pure util unit tests (Vitest)
+
+## Stack
+
+- **Vitest** (`globals: true` from workspace base config), `environment: 'node'`.
+- No TestBed, no jsdom, no `vi.mock` unless the util imports a side-effect module you must stub.
+
+## What to test
+
+- Public exported **pure functions**: return values, edge cases, errors.
+- **Enums / constants**: stable values if consumers rely on them.
+
+## Pattern
+
+```typescript
+import { describe, expect, it } from 'vitest';
+import { myFn } from './my-fn';
+
+describe('myFn', () => {
+  it('maps input to output', () => {
+    expect(myFn('a')).toBe('expected');
+  });
+});
+```
+
+## Anti-patterns
+
+- Pulling in Angular or `pg` for a pure util.
+- Asserting on private helpers; test the exported API only.
+
+## Example in repo
+
+- `libs/cursus/config/util/environment-models/src/lib/environment-models.spec.ts`

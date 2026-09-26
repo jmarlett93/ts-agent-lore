@@ -1,0 +1,21 @@
+---
+description: Conventions and structure for qstr-admin-portal
+globs: apps/qstr-admin-portal/**/*
+alwaysApply: false
+---
+
+# qstr-admin-portal
+
+When editing files under `apps/qstr-admin-portal/`, follow these conventions.
+
+## Scope / When to use
+
+- Applies to: `apps/qstr-admin-portal/**/*`
+
+## Conventions
+
+- <!-- Your app-specific rules: admin portal -->
+
+## Reference files (optional)
+
+- @apps/qstr-admin-portal/src/

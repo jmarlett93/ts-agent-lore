@@ -1,0 +1,23 @@
+---
+description: Tailwind conventions (crss- prefix, no ad-hoc CSS)
+globs: apps/**/*.html, libs/**/*.html
+alwaysApply: false
+---
+
+# Tailwind
+
+When editing files matching this rule.
+
+## Scope
+
+- Applies to: `**/*.html`, `**/*.scss`, `**/tailwind*.css`
+
+## Conventions
+
+- Apply Tailwind classes with `crss:` prefix
+- when using tailwind to styling text elements inside of material layout components, add a <h1>, <h2>, <h3>, <h4>, <h5>, <h6>, <span> or <p> element as appropriate and then style the element with the tailwind classes to avoid getting overridden by the material styles.
+- when building grids, use the grid-cols-12 grid template columns to build the grid. This will give you 12 columns to work with and will make it easy to build responsive layouts.
+- inside the grid, make it responsive with media queries, with mobile first approach.
+  Example: For adding more padding on larger screens <div class="crss:px-4 crss:@min-lg:px-12"> we add the mobile first padding of 4px and then the larger screen padding of 12px.
+- Build media queries carefully, [prefix]@min-[breakpoint]:[style] aka crss:@min-lg:px-12 is a valid media query.
+- Media queries should be included by default on all layout components to make them responsive.

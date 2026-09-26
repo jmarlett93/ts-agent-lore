@@ -1,0 +1,17 @@
+---
+description: Playwright e2e conventions (user flows, selectors)
+globs: apps/*-e2e/**/*
+alwaysApply: false
+---
+
+# Playwright e2e
+
+When editing files matching this rule.
+
+## Scope
+
+- Applies to: `apps/*-e2e/**/*`
+
+## Conventions
+
+- <!-- Focused rules: user workflows, selectors, critical paths; see crss-rules -->

@@ -1,0 +1,19 @@
+---
+description: Conventions for API libraries (Hapi handlers, Joi, Drizzle)
+globs: libs/**/*-api/**/*.ts
+alwaysApply: false
+---
+
+# API libraries
+
+When editing under `libs/**/*-api/**/`.
+
+## Scope
+
+- Applies to: @ libs/**/*-api/**/*
+
+## Conventions
+
+- Hapi handlers, Joi validation, Drizzle; see `crss-rules`.
+- Handler unit tests: `frameworks/vitest-reference-api-handler.mdc`.
+- Optional Postgres integration (`*.integration.spec.ts`): `frameworks/vitest-reference-api-db-integration.mdc`.

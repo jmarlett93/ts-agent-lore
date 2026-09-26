@@ -1,0 +1,70 @@
+---
+description: Conventions and guardrails for qstr-design-sandbox (design mockup playground)
+globs: apps/qstr-design-sandbox/**/*
+alwaysApply: false
+---
+
+# qstr-design-sandbox
+
+## Purpose
+
+`qstr-design-sandbox` is a **standalone design mockup playground**. It is NOT a production application. It exists so developers can vibe-code new page designs, layouts, and components using the real Quaestor Angular Material theme and Tailwind token system — without breaking or coupling to production code in `quaestor-ui-app`.
+
+Think of it as a local Storybook alternative that shows designs inside the real app shell.
+
+## When to use this app
+
+- Prototyping new page layouts or feature screens before building them properly.
+- Experimenting with Material component configurations and Tailwind utility styles.
+- Quickly mocking up visual designs to share with stakeholders.
+- Iterating on component ideas before integrating them into production feature libs.
+
+## Route structure
+
+| Route | File | Notes |
+|---|---|---|
+| `/page-1` | `src/app/pages/page-1/` | Blank canvas — edit freely |
+| `/page-2` | `src/app/pages/page-2/` | Blank canvas — edit freely |
+| `/account/page-3` | `src/app/pages/account-page-3/` | Nested account page — edit freely |
+
+To add a new mockup page: create a component in `src/app/pages/`, add a route in `app.routes.ts`, and add a nav item to `src/app/sandbox-nav/sandbox-nav.config.ts`.
+
+## Shell and layout
+
+The shell uses shared layout primitives from `@crss/page-layout`:
+- `PageLayout` — the main grid container with left-nav reservation.
+- `StickyPageHeaderComponent` — sticky header slot above router-outlet.
+
+The side nav (`SandboxNavComponent`) is app-local and intentionally **decoupled from `MAIN_NAV_CONFIG`** in the shared lib. Changes to it do not affect `quaestor-ui-app`.
+
+## Styling conventions
+
+- Apply Tailwind classes with the `crss:` prefix (same as all other Quaestor apps).
+- Use `crss:text-4xl crss:font-bold` for H1 page titles.
+- Typography scale: H1 `text-4xl`, H2 `text-3xl`, H3 `text-2xl`, body `text-base`.
+- Material components are available — no need to import a separate theme; `styles.scss` already imports the Quaestor M3 theme.
+- Use `@min-md`, `@min-lg`, `@min-xl` container query breakpoints for responsive layout.
+- Use `OnPush` change detection and standalone components.
+
+## Mock data
+
+`src/app/sandbox-providers.ts` contains optional providers that swap production signal stores with mock versions using static demo data. They are **not enabled by default**.
+
+To use mock data in a mockup page, add `providers: sandboxProviders` to the route definition in `app.routes.ts`.
+
+## Guardrails — what NOT to do
+
+- Do NOT add production auth guards (`isAuthenticated`, `isNotAuthenticated`) to sandbox routes.
+- Do NOT import or wire up real API services, HTTP interceptors, or Cognito/Amplify configuration.
+- Do NOT add routes that lazy-load production feature components from other libs (e.g. `ProcessListComponent`, `RoleMapComponent`) unless you are deliberately testing integration.
+- Do NOT deploy this app — it is a local dev tool only.
+- Do NOT modify `quaestor-ui-app` routes, services, or components from within this app.
+
+## Reference files
+
+- Shell: `apps/qstr-design-sandbox/src/app/sandbox-shell/sandbox-shell.component.ts`
+- Nav config: `apps/qstr-design-sandbox/src/app/sandbox-nav/sandbox-nav.config.ts`
+- Routes: `apps/qstr-design-sandbox/src/app/app.routes.ts`
+- Providers: `apps/qstr-design-sandbox/src/app/sandbox-providers.ts`
+- Shared layout lib: `libs/quaestor/global/ui/page-layout/src/index.ts`
+- Production shell (reference only): `apps/quaestor-ui-app/src/app/main-shell/main-shell.component.ts`

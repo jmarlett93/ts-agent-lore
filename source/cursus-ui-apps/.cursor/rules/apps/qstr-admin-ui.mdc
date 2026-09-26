@@ -1,0 +1,21 @@
+---
+description: Conventions and structure for qstr-admin-ui (admin Angular app)
+globs: apps/qstr-admin-ui/**/*
+alwaysApply: false
+---
+
+# qstr-admin-ui
+
+When editing files under `apps/qstr-admin-ui/`, follow these conventions.
+
+## Scope / When to use
+
+- Applies to: @ apps/qstr-admin-ui/**/*
+
+## Conventions
+
+- <!-- Your app-specific rules: prefix admin, port 5200, auth -->
+
+## Reference files (optional)
+
+- @ apps/qstr-admin-ui/src/

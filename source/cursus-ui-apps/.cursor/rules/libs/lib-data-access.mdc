@@ -1,0 +1,18 @@
+---
+description: Conventions for data-access libraries (services, signal stores, API usage)
+globs: libs/**/data-access/**/*.ts
+alwaysApply: false
+---
+
+# Data-access libraries
+
+When editing under `libs/**/data-access/**/`.
+
+## Scope
+
+- Applies to: @ libs/**/data-access/**/*
+
+## Conventions
+
+- Services, signal stores, API usage; see `crss-rules`.
+- Vitest + Testing Library patterns: `frameworks/vitest-reference-angular-isolated.mdc`.

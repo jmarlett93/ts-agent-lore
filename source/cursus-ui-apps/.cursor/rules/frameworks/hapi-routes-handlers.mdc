@@ -1,0 +1,17 @@
+---
+description: Hapi handlers, routes, plugins (Joi validation, handler pattern)
+globs: apps/**/handler*.ts, libs/**/handler*.ts,
+alwaysApply: false
+---
+
+# Hapi routes and handlers
+
+When editing files matching this rule.
+
+## Scope
+
+- Applies to: @ **/handler\*.ts, **/routes*.ts, \*\*/plugin*.ts
+
+## Conventions
+
+- <!-- Focused rules: Hapi handlers, Joi validation, handler pattern; see crss-rules -->

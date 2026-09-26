@@ -1,0 +1,26 @@
+---
+description: Angular template conventions (separate HTML, crss- prefix, control flow, a11y)
+globs: apps/**/*.component.html, libs/**/*.component.html
+alwaysApply: false
+---
+
+# Angular templates
+
+---
+
+## Scope
+
+- Applies to: `**/*.component.html`
+
+## Conventions
+
+- Always use separate `.html` files in Angular components, do not use inline templates.
+- Use semantic HTML with proper accessibility attributes
+- Apply Tailwind classes with `crss:` prefix
+- when styling text elements inside of material layout components, add a <h1>, <h2>, <h3>, <h4>, <h5>, <h6>, <span> or <p> element as appropriate and then style the element with the tailwind classes to avoid getting overridden by the material styles.
+- Use Angular control flow (`@if`, `@for`) instead of structural directives
+- if a signal is used in the template multiple times you may use the @let syntax to declare the variable at the top of the template and then use it multiple times in the template.
+
+## Reference files
+
+- @libs/quaestor/ops-command/feature/process-list/src/lib/process-list/process-list.component.html for a good example of media breakpoints and using signal stores directly in the template.

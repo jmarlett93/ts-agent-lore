@@ -1,0 +1,21 @@
+---
+description: Conventions and structure for quaestor-api-app (Hapi API app)
+globs: apps/quaestor-api-app/**/*
+alwaysApply: false
+---
+
+# quaestor-api-app
+
+When editing files under `apps/quaestor-api-app/`, follow these conventions.
+
+## Scope / When to use
+
+- Applies to: @ apps/quaestor-api-app/**/*
+
+## Conventions
+
+- <!-- Your app-specific rules: server setup, plugins, Lambda handler -->
+
+## Reference files (optional)
+
+- @ apps/quaestor-api-app/src/

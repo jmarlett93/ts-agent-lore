@@ -1,0 +1,20 @@
+---
+description: Conventions for front end feature libraries (signals, stores, Material, templates)
+globs: libs/**/feature/**/*.ts, libs/**/feature/**/*.html
+alwaysApply: false
+---
+
+# Feature libraries
+
+When editing under `libs/**/feature/**/`.
+
+## Scope
+
+- Applies to: @ libs/**/feature/**/_.ts, libs/**/feature/**/_.html
+
+## Conventions
+
+Prefer signal stores for server data
+use the custom nx generator to create valid feature libraries. angular-lib generator.
+
+Component / interaction tests: `frameworks/vitest-reference-angular-isolated.mdc`.

@@ -1,0 +1,33 @@
+---
+description: Angular component conventions (standalone, signals, inject(), OnPush)
+globs: apps/**/*.component.ts, libs/**/*.component.ts
+alwaysApply: false
+---
+
+# Angular components
+
+When editing files matching this rule.
+
+## Scope
+
+- Applies to: `**/*.component.ts`
+
+## Conventions
+
+- Follow the pattern: `inject()` dependencies, `signal()` for state, `computed()` for derived state
+- Avoid adding extra nesting with folders for components. No '/components' folder in libs, the component folders themselves can remain on the top level of the lib.
+- Use Material components, or if you need one, ask about it.
+- Put templates in separate `.html` files (no inline templates)
+- Use Tailwind styles for everything not covered by Material defaults
+- Don't add `.scss` files to components that don't need them
+- Use `OnPush` change detection strategy
+- Use standalone components with explicit imports
+- use the @ngrx/signals library for signal stores containing state and UI business logic.
+  - This is particularly useful in container components to fetch data, handle effects, and manage computed state outside of the component scope.
+  - prefer signalStores and withComputed() over getters in the component file.
+  - inject the signal store and use `protected` so the store can be exposed directly to the template without extra wrapping methods.
+  - do not make signalStore private and expose it or wrap itwith another variable or method
+
+  ## Reference files
+
+- @libs/quaestor/ops-command/feature/process-list/src/lib/process-list/process-list.component.ts for a good example of signal stores and clean separation of concerns.

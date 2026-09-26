@@ -1,0 +1,38 @@
+---
+description: Reference — Vitest unit tests for Hapi handlers and Node API libs (mocked IO)
+globs: libs/**/*-api/**/*.spec.ts, apps/quaestor-api-app/**/*.spec.ts, apps/qstr-edge-local/**/*.spec.ts, apps/payment-processing/**/*.spec.ts
+alwaysApply: false
+---
+
+# API handler / Node unit tests (Vitest)
+
+## Stack
+
+- **Vitest** `environment: 'node'`.
+- **`nxViteTsPaths()`** in `vitest.config.ts` (with `root: __dirname`) when the handler or SUT imports workspace aliases (`@quaestor/...`, `@cursus/...`). Without it, `vitest` run from the lib folder cannot resolve those packages; `nx run …:test` registers paths, but the plugin keeps CLI and Nx consistent.
+- **No running Hapi server** for unit tests — call the handler directly.
+
+## Handler pattern
+
+1. Build a minimal **`Request`** cast: `params`, `payload`, `headers`, `server.app.database` (or other `app` state).
+2. Stub **`ResponseToolkit`**: `response: vi.fn((body) => ({ code: (c) => ({ statusCode: c, body }) }))`.
+3. **Mock Drizzle** as a chain (`select` → `from` → `where` → `limit` / `returning`) **or** `vi.mock` a service module the handler imports.
+4. For **Boom** errors, `await expect(handler(req, h)).rejects.toMatchObject({ output: { statusCode: 401 } })`.
+
+```typescript
+const mockLimit = vi.fn().mockResolvedValue([row]);
+const mockWhere = vi.fn().mockReturnValue({ limit: mockLimit });
+const mockFrom = vi.fn().mockReturnValue({ where: mockWhere });
+const mockSelect = vi.fn().mockReturnValue({ from: mockFrom });
+const database = { select: mockSelect } as unknown as TriadOrmClient;
+```
+
+## Anti-patterns
+
+- Hitting Postgres or Stripe in a **unit** test — keep DB checks in `*.integration.spec.ts` (or mocks in the handler spec).
+- Bootstrapping the full Hapi server for every branch — reserve `server.inject` for thin integration smoke tests.
+
+## Example in repo
+
+- `libs/quaestor/users-api/feature/admin-manager/src/lib/get-administrator-by-cognito-id.handler.spec.ts`
+- Existing: `libs/quaestor/users-api/feature/user-account-manager/src/lib/patch-user-profile.handler.spec.ts`

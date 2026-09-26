@@ -1,0 +1,25 @@
+---
+description: Vitest entrypoint — links to reference rules per test style
+globs: apps/**/*.spec.ts, libs/**/*.spec.ts, **/*.integration.spec.ts
+alwaysApply: false
+---
+
+# Vitest / unit tests (index)
+
+Use the **style-specific reference** that matches what you are writing:
+
+| Style | Rule file |
+|--------|-----------|
+| Pure util (Node, no Angular) | `frameworks/vitest-reference-pure-util.mdc` |
+| Angular component / store (Testing Library + user-event + mocks) | `frameworks/vitest-reference-angular-isolated.mdc` |
+| Hapi handlers / Node API (mocked DB & IO) | `frameworks/vitest-reference-api-handler.mdc` |
+| Postgres + Drizzle integration | `frameworks/vitest-reference-api-db-integration.mdc` |
+
+Workspace defaults: `vitest.base.config.ts` (globals, coverage). Angular libs add Analog + jsdom in their `vitest.config.mts`.
+
+**Merged HTML coverage:** open `coverage/aggregate/html/index.html` after:
+- `nx run @crss/root:test-all-ci-aggregate` — all projects, `test` with `ci` + merge
+- `nx run @crss/root:test-affected-ci-aggregate` — affected only + merge
+- `nx run @crss/root:coverage-aggregate` — merge only (coverage already on disk)
+
+Same as `npm run coverage:all`, `npm run coverage:affected`, `npm run coverage:aggregate`.

@@ -1,0 +1,17 @@
+---
+description: Drizzle ORM conventions (schema, migrations, db config)
+globs: libs/**/schema/**/*.ts
+alwaysApply: false
+---
+
+# Drizzle ORM
+
+When editing files matching this rule.
+
+## Scope
+
+- Applies to: @ **/schema/**/*.ts, \*\*/*migrat*.ts, drizzle.config.*
+
+## Conventions
+
+- <!-- Focused rules: schema, migrations, db config; see crss-rules -->

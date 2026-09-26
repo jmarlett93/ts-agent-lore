@@ -1,0 +1,19 @@
+---
+description: Conventions for UI libraries (atoms, dialogs, presentational)
+globs: libs/**/ui/**/*.ts, libs/**/ui/**/*.html
+alwaysApply: false
+---
+
+# UI libraries
+
+When editing under `libs/**/ui/**/`.
+
+## Scope
+
+- Applies to: @ libs/**/ui/**/\*
+
+## Conventions
+
+use the custom nx generator to create valid ui libraries via the angular-lib generator.
+
+The presentational components should be stateless, take inputs and send signal outputs.
