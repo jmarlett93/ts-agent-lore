@@ -2,14 +2,14 @@
 set -euo pipefail
 
 force=false
-with_universal_flow=true
+with_lore_flow=true
 target=
 
 while (($#)); do
   case "$1" in
     --force) force=true ;;
-    --with-universal-flow) with_universal_flow=true ;;
-    --without-universal-flow) with_universal_flow=false ;;
+    --with-lore-flow) with_lore_flow=true ;;
+    --without-lore-flow) with_lore_flow=false ;;
     -*) printf 'Unknown option: %s\n' "$1" >&2; exit 2 ;;
     *) [[ -z "$target" ]] || { printf 'Only one target path is allowed.\n' >&2; exit 2; }; target="$1" ;;
   esac
@@ -33,13 +33,13 @@ cp -a "$repo/.cursor/rules/." "$target/.cursor/rules/"
 
 printf 'Installed agent lore in %s\n' "$target"
 
-if [[ "$with_universal_flow" == true ]]; then
-  flow_home="${UNIVERSAL_FLOW_HOME:-$HOME/tools/universal-flow}"
-  flow_ref="c3e37bd"
-  flow_repo="https://github.com/jmarlett93/universal-flow.git"
+if [[ "$with_lore_flow" == true ]]; then
+  flow_home="${LORE_FLOW_HOME:-$HOME/tools/lore-flow}"
+  flow_ref="82abc3a"
+  flow_repo="https://github.com/jmarlett93/lore-flow.git"
 
   if [[ -e "$flow_home" ]]; then
-    printf 'Universal Flow already exists at %s; leaving it unchanged.\n' "$flow_home"
+    printf 'Lore Flow already exists at %s; leaving it unchanged.\n' "$flow_home"
   else
     mkdir -p "$(dirname "$flow_home")"
     git clone --depth 1 "$flow_repo" "$flow_home"
@@ -48,12 +48,12 @@ if [[ "$with_universal_flow" == true ]]; then
   fi
 
   plugin_dir="$HOME/.cursor/plugins/local"
-  plugin_link="$plugin_dir/universal-flow"
+  plugin_link="$plugin_dir/lore-flow"
   mkdir -p "$plugin_dir"
   if [[ -e "$plugin_link" || -L "$plugin_link" ]]; then
-    printf 'Cursor Universal Flow link already exists at %s; leaving it unchanged.\n' "$plugin_link"
+    printf 'Cursor Lore Flow link already exists at %s; leaving it unchanged.\n' "$plugin_link"
   else
     ln -s "$flow_home" "$plugin_link"
-    printf 'Linked Universal Flow into Cursor.\n'
+    printf 'Linked Lore Flow into Cursor.\n'
   fi
 fi

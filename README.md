@@ -9,7 +9,7 @@ TypeScript, Angular, Hapi, and Drizzle projects.
 Herdr
   terminal workspaces, tabs, panes, and agent visibility
         ↓ optional execution adapter
-Universal Flow
+Lore Flow
   requirements → technical specs → Ponytail review → parallel builds → recovery
         ↓ launches
 Cursor CLI agents
@@ -32,9 +32,9 @@ This repository is the shared instruction layer:
 Install these files inside each target repository so they are part of that
 repository's Cursor context and versioned with its code.
 
-### Universal Flow
+### Lore Flow
 
-[Universal Flow](https://github.com/jmarlett93/universal-flow) is the orchestration
+[Lore Flow](https://github.com/jmarlett93/lore-flow) is the orchestration
 plugin. Its `cursor.simple` workflow uses:
 
 1. Opus for requirements, technical-spec packets, orchestration, Ponytail review,
@@ -44,13 +44,13 @@ plugin. Its `cursor.simple` workflow uses:
 4. Parallel implementation packets in isolated Git worktrees.
 5. Targeted repair instead of restarting successful work.
 
-Universal Flow is installed globally at `$UNIVERSAL_FLOW_HOME` or
-`$HOME/tools/universal-flow`, and linked into Cursor at
-`~/.cursor/plugins/local/universal-flow`.
+Lore Flow is installed globally at `$LORE_FLOW_HOME` or
+`$HOME/tools/lore-flow`, and linked into Cursor at
+`~/.cursor/plugins/local/lore-flow`.
 
 ### Cursor CLI
 
-The Cursor Agent CLI is the implementation runtime. Universal Flow gives each
+The Cursor Agent CLI is the implementation runtime. Lore Flow gives each
 builder a bounded packet, allowed scope, guidance manifest, acceptance checks, and
 worktree. Builders implement, test, report their guidance usage, and remain
 available for Ponytail review or repair.
@@ -58,9 +58,9 @@ available for Ponytail review or repair.
 ### Herdr
 
 [Herdr](https://herdr.dev) is the terminal multiplexer and visibility layer. With
-the optional Universal Flow Herdr adapter, each implementation packet gets a real
+the optional Lore Flow Herdr adapter, each implementation packet gets a real
 Cursor CLI child pane in a Herdr `agents` tab. Herdr shows working, blocked, and
-completed agents; Universal Flow remains responsible for requirements, artifacts,
+completed agents; Lore Flow remains responsible for requirements, artifacts,
 Git worktrees, reviews, and recovery.
 
 Native Cursor delegation remains available when the Herdr adapter is not selected.
@@ -73,17 +73,17 @@ From this repository:
 ./install.sh /path/to/target-repo
 ```
 
-The default installation adds repository-local lore and installs Universal Flow.
+The default installation adds repository-local lore and installs Lore Flow.
 It will not overwrite an existing `AGENTS.md` unless explicitly forced:
 
 ```bash
 ./install.sh --force /path/to/target-repo
 ```
 
-Skip the global Universal Flow installation when needed:
+Skip the global Lore Flow installation when needed:
 
 ```bash
-./install.sh --without-universal-flow /path/to/target-repo
+./install.sh --without-lore-flow /path/to/target-repo
 ```
 
 Review installed skills and remove anything that does not fit the target project.
@@ -91,17 +91,17 @@ Review installed skills and remove anything that does not fit the target project
 ## Typical run
 
 1. Open the target repository as one Herdr workspace.
-2. Start Universal Flow with `cursor.simple`.
+2. Start Lore Flow with `cursor.simple`.
 3. Select the `herdr` execution adapter when pane-level child visibility is wanted.
 4. Let Opus create and Ponytail-review technical specs.
 5. Approve the spec set once.
 6. Let Cursor CLI builders implement independent packets in parallel.
 7. Review and repair rejected units with Ponytail.
-8. Use the persisted Universal Flow artifacts for recovery and final reporting.
+8. Use the persisted Lore Flow artifacts for recovery and final reporting.
 
 Example request:
 
-> Run Universal Flow with `cursor.simple` and the `herdr` execution adapter for this
+> Run Lore Flow with `cursor.simple` and the `herdr` execution adapter for this
 > PRD against `main`.
 
 ## Repository contents
@@ -109,7 +109,7 @@ Example request:
 - `AGENTS.md` — shared instructions and preferences.
 - `.agents/skills/` — reusable skills.
 - `.cursor/rules/` — portable Cursor rules.
-- `packages/universal-flow/` — pinned Universal Flow installation metadata.
+- `packages/lore-flow/` — pinned Lore Flow installation metadata.
 - `source/` — preserved Cursus-specific source guidance and provenance.
 
 This is intentionally a plain Git repository with no runtime dependency.

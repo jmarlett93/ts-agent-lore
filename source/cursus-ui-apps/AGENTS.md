@@ -12,10 +12,10 @@
 
 <!-- nx configuration end-->
 
-## Universal Flow
+## Lore Flow
 
-This workspace uses the [Universal Flow](https://github.com/jmarlett93/universal-flow) Cursor plugin for PRD-to-sequenced-PR delivery. The plugin is installed outside the repo (`$UNIVERSAL_FLOW_HOME`, typically `~/tools/universal-flow`) and linked at `~/.cursor/plugins/local/universal-flow` — do not vendor a second copy of `skills/` here.
+This workspace uses the [Lore Flow](https://github.com/jmarlett93/lore-flow) Cursor plugin for PRD-to-sequenced-PR delivery. The plugin is installed outside the repo (`$LORE_FLOW_HOME`, typically `~/tools/lore-flow`) and linked at `~/.cursor/plugins/local/lore-flow` — do not vendor a second copy of `skills/` here.
 
-- Invoke: `/orchestrate-feature` or ask to run Universal Flow with preset `cursor.normal` (or `cursor.heavy`) against a PRD and base branch.
-- Run state is written under `.universal-flow/runs/<run-id>/` (gitignored).
-- Repository coding standards stay in `.cursor/rules/` and `.agents/skills/`; Universal Flow does not replace them.
+- Invoke: `/orchestrate-feature` or ask to run Lore Flow with preset `cursor.normal` (or `cursor.heavy`) against a PRD and base branch.
+- Run state is written under `.lore-flow/runs/<run-id>/` (gitignored).
+- Repository coding standards stay in `.cursor/rules/` and `.agents/skills/`; Lore Flow does not replace them.
