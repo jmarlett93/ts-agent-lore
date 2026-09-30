@@ -84,7 +84,7 @@ fi
 
 if [[ "$with_lore_flow" == true ]]; then
   flow_home="${LORE_FLOW_HOME:-$HOME/tools/lore-flow}"
-  flow_ref="82abc3a"
+  flow_ref="82abc3ad0a3be6accf8b890b9c9402544ac8f8fb"
   flow_repo="https://github.com/jmarlett93/lore-flow.git"
 
   if [[ -e "$flow_home" ]]; then
