@@ -88,6 +88,31 @@ Skip the global Lore Flow installation when needed:
 
 Review installed skills and remove anything that does not fit the target project.
 
+### Personal mode
+
+Use `--personal` in a shared repository where the lore should stay yours alone:
+
+```bash
+./install.sh --personal /path/to/team-repo
+```
+
+- `AGENTS.md` is not installed, so the team's file is untouched.
+- Skills are copied to `~/.claude/skills/`, making them user-scoped in Claude Code
+  across every project.
+- Cursor rules and skills are copied into the target's `.cursor/rules/` and
+  `.agents/skills/`, and each copied path is added to the clone's
+  `.git/info/exclude` so it never shows up in `git status`.
+- `.lore-flow/` and `product/` run folders are added to `.git/info/exclude`.
+- Existing files are skipped rather than replaced; `--force` replaces them.
+
+Install Lore Flow for Claude Code at user scope rather than project scope, so
+the shared `.claude/settings.json` is not modified:
+
+```bash
+claude plugin marketplace add jmarlett93/lore-flow
+claude plugin install lore-flow@lore-flow --scope user
+```
+
 ## Typical run
 
 1. Open the target repository as one Herdr workspace.
