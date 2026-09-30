@@ -56,7 +56,7 @@ if [[ "$personal" == true ]]; then
   printf 'Installed Claude skills in %s\n' "$HOME/.claude/skills"
 
   while IFS= read -r name; do
-    exclude_path ".agents/skills/$name/"
+    exclude_path ".agents/skills/$name"
   done < <(copy_entries "$repo/.agents/skills" "$target/.agents/skills")
 
   while IFS= read -r name; do
